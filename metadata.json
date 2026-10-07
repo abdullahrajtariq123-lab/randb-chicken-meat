@@ -1,0 +1,6 @@
+{
+  "name": "R and B Chicken Meat | آر اینڈ بی چکن میٹ",
+  "description": "R and B Chicken Meat - 100% Halal fresh chicken, custom cuts, live rates, wholesale & home delivery.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

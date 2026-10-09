@@ -44,7 +44,7 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
     msg += `*آرڈر کردہ کٹس کی فہرست:*\n`;
     order.items.forEach((item, idx) => {
       msg += `${idx + 1}. ${item.nameUrdu} (${item.weightKg} کلو)\n`;
-      msg += `   • کٹنگ: ${item.cuttingOption.nameUrdu} | کھال: ${item.skinOption.nameUrdu}\n`;
+      msg += `   • کٹنگ: ${item.cuttingOption.nameUrdu} | 100% اسکن لیس (بغیر کھال)\n`;
     });
     msg += `---------------------------------\n`;
     msg += `*کل گوشت کا وزن: ${totalWeight} کلوگرام*\n`;
@@ -147,7 +147,7 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
                       {isUrdu ? item.nameUrdu : item.nameEn}
                     </span>
                     <span className="text-stone-500 block text-[11px]">
-                      {isUrdu ? item.cuttingOption.nameUrdu : item.cuttingOption.nameEn} · {isUrdu ? item.skinOption.nameUrdu : item.skinOption.nameEn}
+                      {isUrdu ? item.cuttingOption.nameUrdu : item.cuttingOption.nameEn} · {isUrdu ? '100% اسکن لیس' : '100% Skinless'}
                     </span>
                   </div>
                   <span className="font-mono font-bold text-stone-900">

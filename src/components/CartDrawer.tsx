@@ -66,7 +66,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOrderConfirmed }) => {
     cartItems.forEach((item, index) => {
       msg += `${index + 1}. ${item.nameUrdu} - ${item.weightKg} کلو\n`;
       msg += `   • کٹنگ کا انداز: ${item.cuttingOption.nameUrdu}\n`;
-      msg += `   • کھال: ${item.skinOption.nameUrdu}\n`;
+      msg += `   • کھال: 100% بغیر کھال (اسکن لیس)\n`;
     });
 
     msg += `---------------------------------\n`;
@@ -243,7 +243,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOrderConfirmed }) => {
                             {isUrdu ? item.nameUrdu : item.nameEn}
                           </h4>
                           <div className="text-[11px] text-stone-500 truncate mt-0.5">
-                            {isUrdu ? item.cuttingOption.nameUrdu : item.cuttingOption.nameEn} · {isUrdu ? item.skinOption.nameUrdu : item.skinOption.nameEn}
+                            {isUrdu ? item.cuttingOption.nameUrdu : item.cuttingOption.nameEn} · {isUrdu ? '100% اسکن لیس' : '100% Skinless'}
                           </div>
                           <div className="text-xs font-semibold text-stone-700 mt-1">
                             {isUrdu ? `وزن: ${item.weightKg} کلوگرام` : `Weight: ${item.weightKg} kg`}

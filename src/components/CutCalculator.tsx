@@ -11,7 +11,6 @@ export const CutCalculator: React.FC = () => {
 
   const [dishType, setDishType] = useState<'karahi' | 'biryani' | 'handi' | 'bbq' | 'roast'>('karahi');
   const [peopleCount, setPeopleCount] = useState<number>(6);
-  const [skinPreference, setSkinPreference] = useState<'skinless' | 'with-skin'>('skinless');
   const [addedNotice, setAddedNotice] = useState(false);
 
   // Standard serving math:
@@ -35,16 +34,13 @@ export const CutCalculator: React.FC = () => {
       ? PRODUCTS.find(p => p.id === 'chicken-wings') || PRODUCTS[0]
       : PRODUCTS.find(p => p.id === 'whole-dressed-chicken')!;
 
-  const calculatedCost = Math.round(totalRequiredKg * matchedProduct.basePricePerKg);
-
   const handleAddCustomToCart = () => {
-    const skinOpt = matchedProduct.skinOptions.find(s => s.id === skinPreference) || matchedProduct.skinOptions[0];
     addToCart({
       product: matchedProduct,
       cuttingOption: matchedProduct.cuttingOptions[0],
-      skinOption: skinOpt,
+      skinOption: matchedProduct.skinOptions[0],
       weightKg: totalRequiredKg,
-      specialInstructions: `${peopleCount} افراد کے لیے ${dishType.toUpperCase()} کی تیاری`
+      specialInstructions: `${peopleCount} افراد کے لیے 100% اسکن لیس ${dishType.toUpperCase()} کی کٹنگ`
     });
 
     setAddedNotice(true);
@@ -64,7 +60,13 @@ export const CutCalculator: React.FC = () => {
         : 'روسٹ/چرغہ';
 
     return encodeURIComponent(
-      `السلام علیکم! مجھے ${peopleCount} افراد کے لیے ${dishLabel} بنانا ہے۔ تخمینہ شدہ وزن: ${totalRequiredKg} کلو (${matchedProduct.nameUrdu})۔ قیمت: Rs ${calculatedCost}۔ کیا یہ تیار مل سکتا ہے؟`
+      `السلام علیکم راجہ عبداللہ صاحب! مجھے آر اینڈ بی چکن میٹ سے ${peopleCount} افراد کے لیے 100% اسکن لیس چکن آرڈر کرنا ہے:
+• ڈش: ${dishLabel}
+• تجویز کردہ کٹنگ: ${matchedProduct.nameUrdu}
+• خالص اسکن لیس وزن: ${totalRequiredKg} کلوگرام
+• کھال: 100% بغیر کھال (اسکن لیس)
+
+براہ کرم آج کا لائیو ریٹ اور تیاری کا وقت بتا دیں۔ شکریہ!`
     );
   };
 
@@ -147,34 +149,18 @@ export const CutCalculator: React.FC = () => {
                 </div>
               </div>
 
-              {/* Step 3: Skin Preference */}
-              <div>
-                <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wider mb-2">
-                  {isUrdu ? '3. کھال کی ترجیح:' : '3. Skin Preference:'}
-                </label>
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setSkinPreference('skinless')}
-                    className={`flex-1 py-2 px-3 text-xs font-semibold rounded-lg border text-center transition-colors cursor-pointer ${
-                      skinPreference === 'skinless'
-                        ? 'bg-amber-500 text-stone-950 border-amber-500'
-                        : 'bg-stone-50 text-stone-700 border-stone-200'
-                    }`}
-                  >
-                    {isUrdu ? 'بغیر کھال (اسکن لیس)' : 'Skinless (Standard)'}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSkinPreference('with-skin')}
-                    className={`flex-1 py-2 px-3 text-xs font-semibold rounded-lg border text-center transition-colors cursor-pointer ${
-                      skinPreference === 'with-skin'
-                        ? 'bg-amber-500 text-stone-950 border-amber-500'
-                        : 'bg-stone-50 text-stone-700 border-stone-200'
-                    }`}
-                  >
-                    {isUrdu ? 'کھال کے ساتھ (اسکن آن)' : 'Skin-on (For crisp roasting)'}
-                  </button>
+              {/* Step 3: 100% Skinless Standard */}
+              <div className="bg-amber-50/80 border border-amber-200/90 rounded-xl p-3.5 flex items-center gap-3">
+                <Check className="w-5 h-5 text-emerald-600 shrink-0" />
+                <div>
+                  <div className="text-xs font-bold text-stone-900">
+                    {isUrdu ? '100% خالص بغیر کھال (اسکن لیس) تیار' : '100% Clean Skinless Guaranteed'}
+                  </div>
+                  <div className="text-[11px] text-stone-600">
+                    {isUrdu
+                      ? 'آر اینڈ بی چکن میٹ پر تمام گوشت کھال، چربی اور آلائشوں سے مکمل صاف کر کے دیا جاتا ہے۔'
+                      : 'All meat at R and B Chicken Meat is meticulously prepared 100% skinless and trimmed clean.'}
+                  </div>
                 </div>
               </div>
             </div>

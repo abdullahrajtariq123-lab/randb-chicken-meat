@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Product, CuttingOption, SkinOption } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
-import { Plus, Minus, Check, ShoppingBag, Scissors, MessageCircle } from 'lucide-react';
+import { Plus, Minus, Check, ShoppingBag, Scissors, MessageCircle, ShieldCheck } from 'lucide-react';
 import { STORE_INFO } from '../data/products';
 
 interface ProductCardProps {
@@ -15,7 +15,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const [weightKg, setWeightKg] = useState<number>(product.minOrderKg);
   const [selectedCut, setSelectedCut] = useState<CuttingOption>(product.cuttingOptions[0]);
-  const [selectedSkin, setSelectedSkin] = useState<SkinOption>(product.skinOptions[0]);
+  const [selectedSkin] = useState<SkinOption>(product.skinOptions[0]);
   const [isAddedFeedback, setIsAddedFeedback] = useState(false);
   const [imgError, setImgError] = useState(false);
 
@@ -40,19 +40,19 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const handleDirectWhatsAppOrder = () => {
     const text = isUrdu
-      ? `السلام علیکم راجہ عبداللہ صاحب! مجھے آر اینڈ بی چکن میٹ سے یہ پروڈکٹ آرڈر کرنا ہے:
+      ? `السلام علیکم راجہ عبداللہ صاحب! مجھے آر اینڈ بی چکن میٹ سے یہ اسکن لیس چکن آرڈر کرنا ہے:
 • پروڈکٹ: ${product.nameUrdu}
 • وزن: ${weightKg} کلو
 • کٹنگ کا انداز: ${selectedCut.nameUrdu}
-• کھال: ${selectedSkin.nameUrdu}
+• کھال: 100% بغیر کھال (اسکن لیس)
 
 براہ کرم آج کا لائیو ریٹ اور ڈیلیوری کا وقت بتا دیں۔ شکریہ!
 شاپ: دکان نمبر 2، بٹی پلازہ، اعوان مارکیٹ، راولپنڈی`
-      : `Hello Raja Abdullah! I would like to order from R and B Chicken Meat:
+      : `Hello Raja Abdullah! I would like to order skinless chicken from R and B Chicken Meat:
 • Product: ${product.nameEn}
 • Weight: ${weightKg} kg
 • Cutting Style: ${selectedCut.nameEn}
-• Skin: ${selectedSkin.nameEn}
+• Skin: 100% Skinless
 
 Please share today's live rate and delivery time. Thank you!`;
 
@@ -80,12 +80,10 @@ Please share today's live rate and delivery time. Thank you!`;
           </div>
         )}
 
-        {/* Quiet unboxed text tag (no pill badge) */}
-        {product.badgeUrdu && (
-          <div className="absolute top-3 left-3 bg-stone-900/90 backdrop-blur-xs text-amber-300 text-[11px] font-semibold px-2.5 py-1 rounded">
-            {isUrdu ? product.badgeUrdu : product.badgeEn}
-          </div>
-        )}
+        {/* Badge */}
+        <div className="absolute top-3 left-3 bg-stone-900/90 backdrop-blur-xs text-amber-300 text-[11px] font-semibold px-2.5 py-1 rounded">
+          {product.badgeUrdu && isUrdu ? product.badgeUrdu : (product.badgeEn || '100% Skinless')}
+        </div>
       </div>
 
       {/* Product Details Section */}
@@ -102,9 +100,15 @@ Please share today's live rate and delivery time. Thank you!`;
             </div>
           </div>
 
-          <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed mb-4">
+          <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed mb-3">
             {isUrdu ? product.descriptionUrdu : product.descriptionEn}
           </p>
+
+          {/* 100% Skinless Guarantee Tag */}
+          <div className="mb-3.5 flex items-center gap-1.5 text-[11px] font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200/80 px-2.5 py-1 rounded-md">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+            <span>{isUrdu ? '100% بغیر کھال (اسکن لیس تیار)' : '100% Clean Skinless Guaranteed'}</span>
+          </div>
 
           {/* Cutting Option Selector */}
           <div className="mb-3">
@@ -126,34 +130,6 @@ Please share today's live rate and delivery time. Thank you!`;
               ))}
             </select>
           </div>
-
-          {/* Skin Option Selector (if multiple) */}
-          {product.skinOptions.length > 1 && (
-            <div className="mb-4">
-              <label className="block text-[11px] font-semibold text-stone-500 uppercase tracking-wider mb-1">
-                {isUrdu ? 'کھال کی ترجیح:' : 'Skin Preference:'}
-              </label>
-              <div className="grid grid-cols-2 gap-1.5">
-                {product.skinOptions.map(skin => {
-                  const isActive = selectedSkin.id === skin.id;
-                  return (
-                    <button
-                      type="button"
-                      key={skin.id}
-                      onClick={() => setSelectedSkin(skin)}
-                      className={`text-[11px] font-medium py-1.5 px-2 rounded border text-center transition-colors cursor-pointer ${
-                        isActive
-                          ? 'bg-stone-900 text-white border-stone-900'
-                          : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'
-                      }`}
-                    >
-                      {isUrdu ? skin.nameUrdu : skin.nameEn}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Weight Selector & WhatsApp / Cart Actions */}

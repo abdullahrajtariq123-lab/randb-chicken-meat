@@ -27,11 +27,13 @@ export const Hero: React.FC<HeroProps> = ({ onOpenShareModal }) => {
         <div className="max-w-3xl">
           {/* Unboxed Metadata Trust Line */}
           <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm font-medium text-amber-400 mb-4 tracking-wide">
-            <span>100% حلال ذبیحہ</span>
+            <span>{isUrdu ? '100% حلال ذبیحہ' : '100% Halal Slaughter'}</span>
             <span aria-hidden="true">·</span>
-            <span>روزانہ تازہ گوشت</span>
+            <span>{isUrdu ? 'خالص اسکن لیس (بغیر کھال)' : '100% Skinless Only'}</span>
             <span aria-hidden="true">·</span>
-            <span>فری ہوم ڈیلیوری</span>
+            <span>{isUrdu ? 'روزانہ تازہ گوشت' : 'Daily Fresh Cut'}</span>
+            <span aria-hidden="true">·</span>
+            <span>{isUrdu ? 'فری ہوم ڈیلیوری' : 'Free Home Delivery'}</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight mb-6">
